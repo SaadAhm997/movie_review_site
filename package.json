@@ -6,12 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js"
-
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
+    "mongoose": "^7.2.1",
     "nodemon": "^2.0.22"
   },
   "nodemonConfig": {
@@ -19,7 +19,7 @@
     "ignore": [
       "node_modules/**/node_modules"
     ],
-    "delay": "2500", 
+    "delay": "2500",
     "env": {
       "NODE_ENV": "development",
       "PORT": 4000

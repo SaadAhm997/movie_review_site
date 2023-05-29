@@ -9,7 +9,7 @@ const movieRouter = express.Router();
 const port = process.env.PORT || 3000;
 const Movie = require('./models/movieModel');
 
-
+// get all moview
 movieRouter.route('/movies')
     .get(async (req, res) => {
         await Movie.find()
@@ -21,7 +21,21 @@ movieRouter.route('/movies')
             }
         }))
     })
+    //get one movie
+    movieRouter.route('/movies/:movieId')
+    .get(async (req, res) => {
+        await Movie.findById(req.params.movieId)
+        .then(((err, movie) => {
+            if(err){
+                return res.send(err);
+            } else{
+                res.json(movie)
+            }
+        }))
+    })
 app.use(movieRouter)
+
+
 
 
 

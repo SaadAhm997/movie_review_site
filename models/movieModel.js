@@ -6,8 +6,8 @@ const movieModel = new Schema(
   {
     title: {type:String},
     genre: {type:String},
-    duration: {type:int},
-    year: {type:int}
+    duration: {type:Number},
+    year: {type:Number}
   },
 );
 

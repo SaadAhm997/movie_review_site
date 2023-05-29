@@ -1,50 +1,21 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const db = mongoose.connect('mongodb://localhost/movie_review_site');
-// mongosh movie_review_site < moviesJson.js   -- is the command to link database
-//  
+// App
+const express = require('express'); // gives routes functions
+const app = express(); // connect routes to app
+const port = process.env.PORT || 3000; // for run on port console.log()
 
-const app = express();
-const movieRouter = express.Router();
-const port = process.env.PORT || 3000;
-const Movie = require('./models/movieModel');
+// Mongoose
+const mongoose = require('mongoose'); // gives mongoose database
+const db = mongoose.connect('mongodb://localhost/movie_review_site'); // mongosh movie_review_site < moviesJson.js  (is the command to link database)
 
-// get all moview
-movieRouter.route('/movies')
-    .get(async (req, res) => {
-        await Movie.find()
-        .then(((err, movies) => {
-            if(err){
-                return res.send(err);
-            } else{
-                res.json(movies)
-            }
-        }))
-    })
-    //get one movie
-    movieRouter.route('/movies/:movieId')
-    .get(async (req, res) => {
-        await Movie.findById(req.params.movieId)
-        .then(((err, movie) => {
-            if(err){
-                return res.send(err);
-            } else{
-                res.json(movie)
-            }
-        }))
-    })
+// Movie
+const Movie = require('./models/movieModel'); // Each movie follows the movie model
+const movieRouter = require('./routes/movieRouter')(Movie); // Add Movie to inject Movie model into the Movie Router / and seperate different Models
 app.use(movieRouter)
 
-
-
-
-
-
-
-
-app.get('/', (req, res) => {
-    res.send("My moview review website!");
-})
+//Post requests
+const bodyParser = require('body-parser'); // for post request
+app.use(bodyParser.urlencoded({ extended: true })); // for post request
+app.use(bodyParser.json()); // make post request into json
 
 app.listen(port, () => {
     console.log(`running on port ${port}`);

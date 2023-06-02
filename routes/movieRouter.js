@@ -1,8 +1,22 @@
 const express = require('express'); // need access to router
+const { db } = require('../models/movieModel');
 
 function routes (Movie) {
     const movieRouter = express.Router() // gives back route so we can add more crud to it
     movieRouter.route('/movies')
+    // post new movie
+    .post((req, res) => {
+        const movie = req.body;
+        db.collection('movies')
+        .insertOne(movie)
+        .then(result => {
+            res.status(201).json(result)
+        })
+        .catch(err => {
+            res.status(500).json({err: 'Could not post'})
+        })
+    })
+    
     // get all movies
     .get(async (req, res) => {
         await Movie.find()
